@@ -1,16 +1,17 @@
 import flet as ft
+import os
+import services.lectura_fichero as lf
 class vista:
-
-
-    def __init__(self) -> None:
+    def __init__(self,page:ft.Page) -> None:
+        self.page = page
         # self.text = ft.TextField(width=200,height=200,multiline=True)
         # self.table = ft.DataTable(columns=[ft.Text("1"),ft.Text("2")])
         #Botones : 
-        self.btn_dec_asig = ft.ElevatedButton(text="Declaración y asignación",width=250,on_click=self.hola)
-        self.btn_io= ft.ElevatedButton("IO",width=250)
-        self.btn_lexico = ft.ElevatedButton("Analisis Lexico",width=250)
-        self.btn_borrar = ft.ElevatedButton("Borrar",width=250)
-        self.btn_archivo = ft.ElevatedButton("Cargar archivo",width=250)
+        self.btn_dec_asig = ft.ElevatedButton(text="Declaración y asignación",width=250,on_click=self.action_btn_dec_asig)
+        self.btn_io= ft.ElevatedButton("IO",width=250,on_click=self.action_btn_io)
+        self.btn_lexico = ft.ElevatedButton("Analisis Lexico",width=250,on_click=self.action_analisis_lexico)
+        self.btn_borrar = ft.ElevatedButton("Borrar",width=250,on_click=self.action_borrar)
+        self.btn_archivo = ft.ElevatedButton("Cargar archivo",width=250,on_click=self.action_carga_archivo)
 
 
         #TextAreas
@@ -50,15 +51,14 @@ class vista:
             margin=5,
             padding=5
         )
-        ft.app(self.main)
-
+        self.main()
     
-    def main(self,page:ft.Page) -> None:
-        page.window_resizable = False
-        page.window_height = 700
-        page.window_width = 1500
-        page.add(self.c_buttons)
-        page.add(
+    def main(self) -> None:
+        self.page.window_resizable = False
+        self.page.window_height = 700
+        self.page.window_width = 1500
+        self.page.add(self.c_buttons)
+        self.page.add(
             ft.Row(
                 [
                 self.c_text_input,
@@ -66,9 +66,26 @@ class vista:
                 ]
             )
         )
-        page.title = "Analizador lexico"
-        page.update()
+        self.page.title = "Analizador lexico"
+        self.page.update()
     
-    #funciones de eventos
-    def hola(self,e)->None:
-        print("hola")
+    #funciones de eventos ----------------------------------------------------------
+        
+    def action_btn_dec_asig(self,e)->None:
+        res = lf.leer_fichero("src/resources/prueba2.txt")
+        self.text_input.value = res
+        self.page.update()
+    def action_btn_io(self,e)->None:
+        print("IO")
+
+    def action_analisis_lexico(self,e)->None:
+        print("analisis lexico")
+    
+    def action_borrar(self,e)->None:
+        print("borrar")
+
+    def action_carga_archivo(self,e)->None:
+        print("carga archivo")
+    #fin fucniones de eventos ------------------------------------------------------------
+
+        

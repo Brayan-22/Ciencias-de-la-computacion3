@@ -28,3 +28,5 @@ replay_pid*
 
 #virtual environment python
 .venv
+__pycache__/
+

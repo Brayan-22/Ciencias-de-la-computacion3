@@ -1,6 +1,7 @@
 import view.vista_principal as v
+import flet as ft
 def main():
-    v.vista()
+    ft.app(v.vista)
 
 
 if __name__ == "__main__":
