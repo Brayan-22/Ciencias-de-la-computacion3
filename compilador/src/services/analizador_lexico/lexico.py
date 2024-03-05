@@ -4,8 +4,8 @@ tokens = (
     "IDENTIFICADOR",
     "NUMERO_ENTERO",
     "NUMERO_DECIMAL",
-    "CADENA",
     "CARACTER",
+    "CADENA",
     "OPERADOR_SUMA",
     "OPERADOR_RESTA",
     "OPERADOR_MULTIPLICACION",
@@ -24,26 +24,46 @@ tokens = (
     "MAYOR_O_IGUAL_QUE",
     "MENOR_O_IGUAL_QUE",
     "DIFERENTE_DE",
-    "AND",
-    "OR",
-    "NOT",
-    "IF",
-    "ELSE",
-    "WHILE",
-    "FOR",
-    "TRUE",
-    "FALSE",
-    "CLASS",
-    "PUBLIC",
-    "STATIC",
-    "VOID",
-    "RETURN",
+    "OPERADOR_LOGICO_AND",
+    "OPERADOR_LOGICO_OR",
+    "OPERADOR_LOGICO_NOT",
     "CORCHETE_IZQUIERDO",
     "CORCHETE_DERECHO",
+    "TIPO_DATO",
+    "MOD_ACCESO",
+    "MODIFICADOR",
+    "TIPO_FUNCION",
+    "PALABRA_RESERVADA",
 )
+
+palabrasReservadas = {
+    "public": "MOD_ACCESO",
+    "static": "MODIFICADOR",
+    "void": "TIPO_FUNCION",
+    "class": "PALABRA_RESERVADA",
+    "if": "PALABRA_RESERVADA",
+    "else": "PALABRA_RESERVADA",
+    "while": "PALABRA_RESERVADA",
+    "for": "PALABRA_RESERVADA",
+    "true": "PALABRA_RESERVADA",
+    "false": "PALABRA_RESERVADA",
+    "float": "TIPO_DATO",
+    "System": "PALABRA_RESERVADA",
+    "private": "MOD_ACCESO",
+    "int": "TIPO_DATO",
+    "double": "TIPO_DATO",
+    "String": "TIPO_DATO",
+    "char": "TIPO_DATO",
+    "boolean": "TIPO_DATO",
+    "long": "TIPO_DATO",
+    "short": "TIPO_DATO",
+    "return": "PALABRA_RESERVADA",
+}
 
 def t_IDENTIFICADOR(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
+    if t.value in palabrasReservadas:
+        t.type = palabrasReservadas[t.value]
     return t
 
 def t_NUMERO_ENTERO(t):
@@ -52,8 +72,13 @@ def t_NUMERO_ENTERO(t):
     return t
 
 def t_NUMERO_DECIMAL(t):
-    r'\d+\.\d+'
+    r'\d+(\.\d+)?'
     t.value = float(t.value)
+    return t
+
+def t_CARACTER(t):
+    r'\'(.)\''
+    t.value = t.group(1)
     return t
 
 def t_CADENA(t):
@@ -61,13 +86,8 @@ def t_CADENA(t):
     t.value = t.value[1:-1]
     return t
 
-def t_CARACTER(t):
-    r'\'(.|\n)\''
-    t.value = t.value[1:-1]
-    return t
-
 def t_OPERADOR_SUMA(t):
-    r'\+\s+'
+    r'\+'
     return t
 
 def t_OPERADOR_RESTA(t):
@@ -110,6 +130,14 @@ def t_LLAVE_DERECHA(t):
     r'\}'
     return t
 
+def t_CORCHETE_IZQUIERDO(t):
+    r'\['
+    return t
+
+def t_CORCHETE_DERECHO(t):
+    r'\]'
+    return t
+
 def t_PUNTO_COMA(t):
     r'\;'
     return t
@@ -150,77 +178,26 @@ def t_DIFERENTE_DE(t):
     r'\!='
     return t
 
-def t_IF(t):
-    r'if'
-    return t
-
-def t_ELSE(t):
-    r'else'
-    return t
-
-def t_WHILE(t):
-    r'while'
-    return t
-
-def t_FOR(t):
-    r'for'
-    return t
-
-def t_TRUE(t):
-    r'true'
-    return t
-
-def t_FALSE(t):
-    r'false'
-    return t
-
-def t_CLASS(t):
-    r'class'
-    return t
-
-def t_PUBLIC(t):
-    r'public'
-    return t
-
-def t_STATIC(t):
-    r'static'
-    return t
-
-def t_VOID(t):
-    r'void'
-    return t
-
-def t_RETURN(t):
-    r'return'
-    return t
-
-def t_CORCHETE_IZQUIERDO(t):
-    r'\['
-    return t
-
-def t_CORCHETE_DERECHO(t):
-    r'\]'
-    return t
-
-t_ignore = ' \t\n\[\]'
-
-def t_COMENTARIO(t):
-    r'//.*\n'
-    pass
-
 def t_error(t):
     print("Error: caracter desconocido '%s'" % t.value[0])
     t.lexer.skip(1)
+    
+t_ignore = ' \t\n'
 
 Programa = """
 public class HolaMundo {
-    private int numero = 5;
+    private int num = 5;
+    public float numero = 3.1;
+        System.out.println(numero);
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int num = scan.nextInt();
         System.out.println(num);      
         System.out.println("Hola mundo!");
-
+         if(a >= 5 && numero!=0){
+             int ab = -23+3*2/34;
+             char c = "a";
+         }
     }
 }
 """
