@@ -1,11 +1,8 @@
-import java.util.Scanner;
-
 public class prueba {
     private int numero = 5;
+    private String cadena = "hola mundo";
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        int num = scan.nextInt();
-        System.out.println(num);      
-        System.out.println("Hola mundo!");
+        int numero2 = 10;
+        float numero3 = 10.3f;
     }
 }

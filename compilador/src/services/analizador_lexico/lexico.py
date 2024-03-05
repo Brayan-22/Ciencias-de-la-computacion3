@@ -181,7 +181,7 @@ def t_DIFERENTE_DE(t):
 def t_error(t):
     print("Error: caracter desconocido '%s'" % t.value[0])
     t.lexer.skip(1)
-    
+    return "".join("Error: caracter desconocido '%s'" % t.value[0])
 t_ignore = ' \t\n'
 
 Programa = """
@@ -202,12 +202,14 @@ public class HolaMundo {
 }
 """
 
-lexer = lex.lex()
+def analizador_lexico(programa:str)->str:
+    analisis = []
+    lexer = lex.lex()
+    lexer.input(programa)
 
-lexer.input(Programa)
-
-while True:
-    token = lexer.token()
-    if not token:
-        break
-    print(token)
+    while True:
+        token = lexer.token()
+        if not token:
+            break
+        analisis.append(str(token)+"\n")
+    return "".join(analisis)

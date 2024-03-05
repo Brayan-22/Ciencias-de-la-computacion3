@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
-public class prueba {
-    private int numero = 5;
+public class prueba2 {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
         int num = scan.nextInt();
