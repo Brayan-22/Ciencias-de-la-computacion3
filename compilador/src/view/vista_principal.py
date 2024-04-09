@@ -1,5 +1,4 @@
 import flet as ft
-import os
 import services.lectura_fichero as lf
 import services.analizador_lexico.lexico as al
 

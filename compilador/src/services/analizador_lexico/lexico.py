@@ -20,7 +20,9 @@ tokens = (
     "COMA",
     "PUNTO",
     "ASIGNACION",
+    "MAYOR_IGUAL_QUE",
     "MAYOR_QUE",
+    "MENOR_IGUAL_QUE",
     "MENOR_QUE",
     "IGUALDAD",
     "MAYOR_O_IGUAL_QUE",
@@ -36,6 +38,9 @@ tokens = (
     "MODIFICADOR",
     "TIPO_FUNCION",
     "PALABRA_RESERVADA",
+    "DOS_PUNTOS",
+    "COMENTARIO",
+    "BLOQUE_COMENTARIO"
 )
 
 palabrasReservadas = {
@@ -71,13 +76,23 @@ palabrasReservadas = {
     "long": "TIPO_DATO",
     "short": "TIPO_DATO",
     "return": "PALABRA_RESERVADA",
+    "final":"PALABRA_RESERVADA"
 }
 
+def t_COMENTARIO(t):
+        r'\//.*'
+        return t
+    
+def t_BLOQUE_COMENTARIO(t):
+        r'\/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+\/'
+        return t
+    
 def t_IDENTIFICADOR(t):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     if t.value in palabrasReservadas:
         t.type = palabrasReservadas[t.value]
     return t
+
 
 def t_NUMERO_ENTERO(t):
     r'\d+'
@@ -164,6 +179,9 @@ def t_PUNTO_COMA(t):
 def t_COMA(t):
     r'\,'
     return t
+def t_DOS_PUNTOS(t):
+    r'\:'
+    return t
 
 def t_PUNTO(t):
     r'\.'
@@ -172,15 +190,18 @@ def t_PUNTO(t):
 def t_ASIGNACION(t):
     r'\='
     return t
-
+def t_MAYOR_IGUA_QUE(t):
+    r'\>\='
+    return t
 def t_MAYOR_QUE(t):
     r'\>'
     return t
-
+def t_MENOR_IGUAL_QUE(t):
+    r'\<\='
+    return t
 def t_MENOR_QUE(t):
     r'\<'
     return t
-
 def t_IGUALDAD(t):
     r'\=='
     return t
