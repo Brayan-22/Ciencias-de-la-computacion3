@@ -6,6 +6,8 @@ tokens = (
     "NUMERO_DECIMAL",
     "CARACTER",
     "CADENA",
+    "OPERADOR_INCREMENTO",
+    "OPERADOR_DECREMENTO",
     "OPERADOR_SUMA",
     "OPERADOR_RESTA",
     "OPERADOR_MULTIPLICACION",
@@ -39,7 +41,13 @@ tokens = (
 palabrasReservadas = {
     "public": "MOD_ACCESO",
     "static": "MODIFICADOR",
+    "in":"PALABRA_RESERVADA",
     "void": "TIPO_FUNCION",
+    "new":"PALABRA_RESERVADA",
+    "Scanner":"PALABRA_RESERVADA",
+    "System":"PALABRA_RESERVADA",
+    "out":"PALABRA_RESERVADA",
+    "println":"PALABRA_RESERVADA",
     "class": "PALABRA_RESERVADA",
     "if": "PALABRA_RESERVADA",
     "else": "PALABRA_RESERVADA",
@@ -89,6 +97,12 @@ def t_CARACTER(t):
 def t_CADENA(t):
     r'\"([^\\\n]|(\\.))*?\"'
     t.value = t.value[1:-1]
+    return t
+def t_OPERADOR_INCREMENTO(t):
+    r'\+\+'
+    return t
+def t_OPERADOR_DECREMENTO(t):
+    r'\-\-'
     return t
 
 def t_OPERADOR_SUMA(t):
