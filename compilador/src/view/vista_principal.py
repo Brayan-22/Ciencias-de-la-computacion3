@@ -26,8 +26,9 @@ class vista:##### if switch doWhile while for inicio
         #TextAreas
         self.text_input = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Input",text_size=12)
         self.text_output = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis Lexico")
-
+        self.text_output2 = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis sintactico")
         #Contenedores
+        
         self.c_buttons = ft.Container(
             content= ft.Row(
                 [
@@ -67,6 +68,13 @@ class vista:##### if switch doWhile while for inicio
             margin=5,
             padding=5
         )
+        self.c_text_output2 = ft.Contaier(
+            content=self.text_output2,
+            width=450,
+            height=600,
+            margin=5,
+            padding=5
+        )
         self.main()
     
     def main(self) -> None:
@@ -78,7 +86,8 @@ class vista:##### if switch doWhile while for inicio
             ft.Row(
                 [
                 self.c_text_input,
-                self.c_text_output
+                self.c_text_output,
+                self.c_text_output2
                 ]
             )
         )
