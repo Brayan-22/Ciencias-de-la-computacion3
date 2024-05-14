@@ -8,6 +8,7 @@ class vista:##### if switch doWhile while for inicio
     def __init__(self,page:ft.Page) -> None:
         self.tamButtons = 130
         self.page = page
+        self.parser = MyParser()
         # self.text = ft.TextField(width=200,height=200,multiline=True)
         # self.table = ft.DataTable(columns=[ft.Text("1"),ft.Text("2")])
         #ventanas emergentes:
@@ -184,7 +185,8 @@ class vista:##### if switch doWhile while for inicio
     def action_analisis_sintax(self,e)->None:
         nuevo_texto = self.text_input.value
         lf.escritura_fichero(self.input,nuevo_texto)
-        self.text_output2.value = MyParser(self.input)
+        self.text_output2.value = self.parser.getSintaxis(self.input)
+        
         self.page.update()
     
     def action_borrar(self,e)->None:
