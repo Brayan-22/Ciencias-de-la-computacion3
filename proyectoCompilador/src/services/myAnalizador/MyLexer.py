@@ -1,5 +1,5 @@
 from antlr4 import *
-from services.myantlr4.JavaLexer import JavaLexer
+from services.myantlr4.MyJavaLexer import MyJavaLexer as JavaLexer
 def MyLexer(filePath:str)->str:
     input_stream = FileStream(filePath)
     lexer = JavaLexer(input_stream)

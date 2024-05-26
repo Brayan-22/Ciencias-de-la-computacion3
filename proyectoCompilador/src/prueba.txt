@@ -1,0 +1,5 @@
+class programa{
+    var hola = 6;
+    println hola;
+    println y;
+}

@@ -1,8 +1,11 @@
-package resources;
-
-import java.util.*;
+package hola.paquete;
+import java.util.List;
+import java.util.ArrayList;
 public class input {
-    public static int NUMERO=11,NUmero2 = 10;
-    public String p = "hola";
-
+    int numero;
+    private static int numero2 = 10,numero3=12;
+    public static void main(String[] args) {
+        final int x = 5;
+        final String p = "hola";
+    }
 }

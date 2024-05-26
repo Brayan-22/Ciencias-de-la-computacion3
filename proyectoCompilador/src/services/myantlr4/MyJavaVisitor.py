@@ -1,37 +1,26 @@
-import sys
+# Generated from MyJava.g4 by ANTLR 4.13.1
 from antlr4 import *
+if "." in __name__:
+    from .MyJavaParser import MyJavaParser
+else:
+    from MyJavaParser import MyJavaParser
 
-from services.myantlr4.MyJavaParser import MyJavaParser as MyJavaParser
-from services.myantlr4.MyJavaVisitor import MyJavaVisitor as MyJavaVisitor
+# This class defines a complete generic visitor for a parse tree produced by MyJavaParser.
 
-class VisitorInterp(MyJavaVisitor):
-    def __init__(self) -> None:
-        self.classVar = {}
-        self.localVar={
-        }
-        self.analisiSintactico = []
-    def getAnalsis(self)->list:
-        return self.analisiSintactico
-        
-# Visit a parse tree produced by MyJavaParser#compilationUnit.
+class MyJavaVisitor(ParseTreeVisitor):
+
+    # Visit a parse tree produced by MyJavaParser#compilationUnit.
     def visitCompilationUnit(self, ctx:MyJavaParser.CompilationUnitContext):
-        print("SE INICIA EL ANALISIS SINTACTICO")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#packageDeclaration.
     def visitPackageDeclaration(self, ctx:MyJavaParser.PackageDeclarationContext):
-        temp = (f"{ctx.PACKAGE().getText()} {self.visitQualifiedName(ctx.qualifiedName())}{ctx.PUNTOCOMA().getText()}")
-        temp2 ="------paquete-----\nSintaxis correcta\n"
-        self.analisiSintactico.append(temp2+temp+"\n")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#importDeclaration.
     def visitImportDeclaration(self, ctx:MyJavaParser.ImportDeclarationContext):
-        temp = (f"{ctx.IMPORT().getText()} {self.visitQualifiedName(ctx.qualifiedName())}{ctx.PUNTOCOMA().getText()}")
-        temp2 ="------import-----\nSintaxis correcta\n"
-        self.analisiSintactico.append(temp2+temp+"\n")
         return self.visitChildren(ctx)
 
 
@@ -82,37 +71,6 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#classVariableDeclaration.
     def visitClassVariableDeclaration(self, ctx:MyJavaParser.ClassVariableDeclarationContext):
-        #Declaracion de variables de clase
-        acceso =[]
-        for modifier in ctx.memberModifier():
-            acceso.append(modifier.getText())
-        hola = self.visitVariableDeclaratorList(ctx.variableDeclaratorList())
-        for h in hola:
-            h["modifiers"] = acceso
-            h["type"]=ctx.type_().getText()
-            temp = "----Dec y Asig------\nSintaxis correcta\n";
-            classVarAnalisis = []
-            classVarAnalisis.extend(acceso)
-            classVarAnalisis.append(h["type"])
-            classVarAnalisis.extend(h["as"])
-            if 'value' not in h:
-                h['value'] = None
-            temp2 = ' '.join(classVarAnalisis)
-            self.analisiSintactico.append(temp+temp2+";"+"\n")
-            del h["as"]
-        
-        for h in hola:
-            print(h["id"])
-            if h["id"] in self.classVar:
-                raise SemanticErrorException("Sintaxis incorrecta: El bloque switch debe contener al menos un caso 'case'.")
-                pass
-            else:
-                self.classVar[h["id"]] ={
-                "type":h["type"],
-                "value":h["value"]
-            }
-
-        print(self.classVar)
         return self.visitChildren(ctx)
 
 
@@ -273,27 +231,17 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#variableDeclaratorList.
     def visitVariableDeclaratorList(self, ctx:MyJavaParser.VariableDeclaratorListContext):
-        #lista de variables
-        listaVariables = []
-        for varDec in ctx.variableDeclarator():
-            listaVariables.append(self.visitVariableDeclarator(varDec))
-        return listaVariables
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#localVariableDeclaratorList.
+    def visitLocalVariableDeclaratorList(self, ctx:MyJavaParser.LocalVariableDeclaratorListContext):
+        return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#variableDeclarator.
     def visitVariableDeclarator(self, ctx:MyJavaParser.VariableDeclaratorContext):
-        variableDec = {}
-        temp = f"{ctx.Identifier().getText()}"
-        variableDec["id"] = temp
-        if ctx.IGUAL() is None:
-            variableDec["as"] = [temp]
-            return variableDec
-        else:
-            temp2 = ctx.IGUAL().getText()
-            temp3 = ctx.variableInitializer().getText()
-            variableDec["value"]=temp3
-            variableDec["as"] = [temp,temp2,temp3]
-            return variableDec
+        return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#variableInitializer.
@@ -313,11 +261,8 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#qualifiedName.
     def visitQualifiedName(self, ctx:MyJavaParser.QualifiedNameContext):
-        qualifiedNames = []
-        qualifiedName = ""
-        for id in ctx.Identifier():
-            qualifiedNames.append(id.getText())
-        qualifiedName = '.'.join(qualifiedNames)
-        return qualifiedName
+        return self.visitChildren(ctx)
 
-        
+
+
+del MyJavaParser

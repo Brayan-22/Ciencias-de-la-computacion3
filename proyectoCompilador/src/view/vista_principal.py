@@ -1,14 +1,14 @@
 import flet as ft
 import services.lectura_fichero as lf
+import json
 # import services.analizador_lexico.lexico as al
 from services.myAnalizador.MyLexer import MyLexer
 from services.myAnalizador.MyParser import MyParser
-
+from services.myAnalizador.MyParser import visitor
 class vista:##### if switch doWhile while for inicio 
     def __init__(self,page:ft.Page) -> None:
         self.tamButtons = 130
         self.page = page
-        self.parser = MyParser()
         # self.text = ft.TextField(width=200,height=200,multiline=True)
         # self.table = ft.DataTable(columns=[ft.Text("1"),ft.Text("2")])
         #ventanas emergentes:
@@ -74,7 +74,7 @@ class vista:##### if switch doWhile while for inicio
                 ],
                 scroll=ft.ScrollMode.ALWAYS
             ),
-            width=450,
+            width=350,
             height=500,
             margin=5,
             padding=5
@@ -100,7 +100,7 @@ class vista:##### if switch doWhile while for inicio
                 ],
                 scroll=ft.ScrollMode.ALWAYS
             ),
-            width=450,
+            width=350,
             height=500,
             margin=5,
             padding=5
@@ -182,11 +182,12 @@ class vista:##### if switch doWhile while for inicio
         lf.escritura_fichero(self.input,nuevo_texto)
         self.text_output.value = MyLexer(self.input)
         self.page.update()
+        
     def action_analisis_sintax(self,e)->None:
         nuevo_texto = self.text_input.value
         lf.escritura_fichero(self.input,nuevo_texto)
-        self.text_output2.value = self.parser.getSintaxis(self.input)
-        
+        self.text_output2.value = MyParser(self.input)
+        self.addRow()
         self.page.update()
     
     def action_borrar(self,e)->None:
@@ -197,6 +198,18 @@ class vista:##### if switch doWhile while for inicio
 
     def action_carga_archivo(self,path:str)->None:
         self.text_input.value = lf.leer_fichero(path)
+        self.page.update()
+    def addRow(self):
+        # for ident in visitor.fields:
+        #     i = ident
+        #     type = visitor.fields[ident]['type']
+        #     value = visitor.fields[ident]['value']
+        #     self.dataTable.rows.insert(len(self.dataTable.rows), 
+        #                            ft.DataRow([ft.DataCell(ft.Text(type)), 
+        #                                        ft.DataCell(ft.Text(i)), 
+        #                                        ft.DataCell(ft.Text(value))
+        #                        ],))   
+                            
         self.page.update()
     #fin fucniones de eventos ------------------------------------------------------------
     #self.table.add_data_row(datos)

@@ -4,4 +4,5 @@ import java.util.LIst;
 public class decAsig {
     private int numero = 5;
     private String cadena = "hola mundo";    
+    private static final String prueba = "adios mundo"; 
 }
