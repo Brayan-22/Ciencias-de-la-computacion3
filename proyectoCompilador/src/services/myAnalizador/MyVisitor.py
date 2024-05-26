@@ -3,6 +3,9 @@ from antlr4 import *
 
 from services.myantlr4.MyJavaParser import MyJavaParser as MyJavaParser
 from services.myantlr4.MyJavaVisitor import MyJavaVisitor as MyJavaVisitor
+class SemanticErrorException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
 
 class VisitorInterp(MyJavaVisitor):
     def __init__(self) -> None:
@@ -102,17 +105,16 @@ class VisitorInterp(MyJavaVisitor):
             del h["as"]
         
         for h in hola:
-            print(h["id"])
             if h["id"] in self.classVar:
-                raise SemanticErrorException("Sintaxis incorrecta: El bloque switch debe contener al menos un caso 'case'.")
-                pass
+                if h["type"] != self.classVar[h["id"]]["type"]:
+                    raise SemanticErrorException(f"Error de semantica. Tipos invalidos:{h["type"]} incompatible {self.classVar[h["id"]]["type"]}")
+                else:
+                    self.classVar[h["id"]]["value"] = h['value']
             else:
                 self.classVar[h["id"]] ={
                 "type":h["type"],
                 "value":h["value"]
             }
-
-        print(self.classVar)
         return self.visitChildren(ctx)
 
 
