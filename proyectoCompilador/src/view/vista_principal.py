@@ -32,10 +32,12 @@ class vista:##### if switch doWhile while for inicio
         self.text_input = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Input",text_size=12)
         self.text_output = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis Lexico")
         self.text_output2 = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis sintactico")
-        
+        self.titulo_tabla = ft.Text("Variables de clase", theme_style=ft.TextThemeStyle.TITLE_SMALL,text_align=ft.TextAlign.CENTER);
+        self.titulo_tabla2 = ft.Text("Variables locales", theme_style=ft.TextThemeStyle.TITLE_SMALL,text_align=ft.TextAlign.CENTER);
+
         #Tablas
         
-        self.dataTable = ft.DataTable(        
+        self.class_var_table = ft.DataTable(        
             columns=[
                 ft.DataColumn(ft.Text("Tipo")),
                 ft.DataColumn(ft.Text("Identificador")),
@@ -43,7 +45,14 @@ class vista:##### if switch doWhile while for inicio
             ],
             rows=[],
         )
-        
+        self.local_var_table = ft.DataTable(        
+            columns=[
+                ft.DataColumn(ft.Text("Tipo")),
+                ft.DataColumn(ft.Text("Identificador")),
+                ft.DataColumn(ft.Text("Valor")),
+            ],
+            rows=[],
+        )
         #Contenedores
                 
         self.c_buttons = ft.Container(
@@ -51,6 +60,7 @@ class vista:##### if switch doWhile while for inicio
                 [
                     self.btn_dec_asig,
                     self.btn_io,
+                    self.btn_if,
                     self.btn_switch,
                     self.btn_dowhile,
                     self.btn_while,
@@ -74,14 +84,14 @@ class vista:##### if switch doWhile while for inicio
                 ],
                 scroll=ft.ScrollMode.ALWAYS
             ),
-            width=350,
+            width=300,
             height=500,
             margin=5,
             padding=5
         )
         self.c_text_output=ft.Container(
             content=self.text_output,
-            width=350,
+            width=300,
             height=500,
             margin=5,
             padding=5
@@ -93,17 +103,31 @@ class vista:##### if switch doWhile while for inicio
             margin=5,
             padding=5
         )
-        self.c_table = ft.Container(
-             content= ft.Column(
+        self.c_table2 = ft.Container(
+            content= ft.Column(
                 [
-                    self.dataTable,
+                    self.titulo_tabla2,
+                    self.local_var_table
                 ],
                 scroll=ft.ScrollMode.ALWAYS
             ),
             width=350,
             height=500,
             margin=5,
-            padding=5
+            padding=5,
+        )
+        self.c_table = ft.Container(
+             content= ft.Column(
+                [
+                    self.titulo_tabla,
+                    self.class_var_table
+                ],
+                scroll=ft.ScrollMode.ALWAYS
+            ),
+            width=350,
+            height=500,
+            margin=5,
+            padding=5,
         )
 
         self.main()
@@ -111,7 +135,7 @@ class vista:##### if switch doWhile while for inicio
     def main(self) -> None:
         self.page.window_resizable = False
         self.page.window_height = 800
-        self.page.window_width = 1700
+        self.page.window_width = 1800
         self.rows=[]
         self.page.add(self.c_buttons)
         self.page.add(
@@ -120,7 +144,8 @@ class vista:##### if switch doWhile while for inicio
                 self.c_text_input,
                 self.c_text_output,
                 self.c_text_output2,
-                self.c_table
+                self.c_table,
+                self.c_table2
                 ]
             )
         ) 
@@ -135,43 +160,59 @@ class vista:##### if switch doWhile while for inicio
         self.action_carga_archivo(nuevo_archivo)
     
     def action_btn_dec_asig(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/input.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()
         
     def action_btn_io(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/io.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()
     def action_btn_switch(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/Switch.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()        
     def action_btn_dowhile(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/DoWhile.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()   
     def action_btn_while(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/While.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()   
     def action_btn_for(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/For.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()   
     def action_btn_inicio(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/Inicio.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()   
         
     def action_btn_if(self,e)->None:
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.input = "src/resources/If.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
@@ -187,30 +228,55 @@ class vista:##### if switch doWhile while for inicio
         nuevo_texto = self.text_input.value
         lf.escritura_fichero(self.input,nuevo_texto)
         self.text_output2.value = MyParser(self.input)
-        self.addRow()
+        self.add_row_var_class()
+        self.add_row_var_local()
         self.page.update()
     
     def action_borrar(self,e)->None:
         self.text_input.value = ""
         self.text_output.value = ""
         self.text_output2.value = ""
+        self.clear_table_var_class()
+        self.clear_table_var_local()
         self.page.update()
 
     def action_carga_archivo(self,path:str)->None:
         self.text_input.value = lf.leer_fichero(path)
         self.page.update()
-    def addRow(self):
-        # for ident in visitor.fields:
-        #     i = ident
-        #     type = visitor.fields[ident]['type']
-        #     value = visitor.fields[ident]['value']
-        #     self.dataTable.rows.insert(len(self.dataTable.rows), 
-        #                            ft.DataRow([ft.DataCell(ft.Text(type)), 
-        #                                        ft.DataCell(ft.Text(i)), 
-        #                                        ft.DataCell(ft.Text(value))
-        #                        ],))   
-                            
+        
+    def add_row_var_class(self):
+        self.clear_table_var_class()
+        for ident in visitor.classVar:
+            i = ident
+            type = visitor.classVar[ident]['type']
+            value = visitor.classVar[ident]['value']
+            self.class_var_table.rows.insert(len(self.class_var_table.rows), 
+                                   ft.DataRow([ft.DataCell(ft.Text(type)), 
+                                               ft.DataCell(ft.Text(i)), 
+                                               ft.DataCell(ft.Text(value))
+                               ],))   
+    def clear_table_var_class(self):
+        tam = len(self.class_var_table.rows) -1
+        for i in range(tam,-1,-1):
+            self.class_var_table.rows.remove(self.class_var_table.rows[i])
         self.page.update()
-    #fin fucniones de eventos ------------------------------------------------------------
-    #self.table.add_data_row(datos)
-    #self.table.clear_data() 
+        
+        
+        
+        
+    def add_row_var_local(self):
+        self.clear_table_var_local()
+        for ident in visitor.localVar:
+            i = ident
+            type = visitor.localVar[ident]['type']
+            value = visitor.localVar[ident]['value']
+            self.local_var_table.rows.insert(len(self.local_var_table.rows), 
+                                   ft.DataRow([ft.DataCell(ft.Text(type)), 
+                                               ft.DataCell(ft.Text(i)), 
+                                               ft.DataCell(ft.Text(value))
+                               ],))   
+    def clear_table_var_local(self):
+        tam = len(self.local_var_table.rows) -1
+        for i in range(tam,-1,-1):
+            self.local_var_table.rows.remove(self.local_var_table.rows[i])
+        self.page.update()

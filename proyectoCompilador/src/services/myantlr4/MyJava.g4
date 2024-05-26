@@ -63,7 +63,7 @@ methodInitializer
 
 // Declaraciones de variables de clase
 classVariableDeclaration
-    :   memberModifier* type variableDeclaratorList PUNTOCOMA
+    :   memberModifier* type? variableDeclaratorList PUNTOCOMA
     ;
 typeOrVoid
     :   type
@@ -111,7 +111,7 @@ blockStatement
 
 // Declaración de variables locales
 localVariableDeclarationStatement
-    :   variableModifier? type localVariableDeclaratorList PUNTOCOMA
+    :   variableModifier? type? localVariableDeclaratorList PUNTOCOMA
     ;
 localVariableDeclaration
     :   variableModifier? type localVariableDeclaratorList
@@ -126,8 +126,25 @@ statement
     |   switchStatement
     |   breakStatement
     |   expressionStatement
+    |   ioStatement
     |   PUNTOCOMA
     ;
+    
+// Operaciones de entrada y salida
+ioStatement
+    :   printStatement
+    |   scanStatement
+    ;
+    
+    
+printStatement
+    :   SYSTEM PUNTO OUT PUNTO PRINTLN PARENIZQ (expression (COMA expression)*)? PARENDER PUNTOCOMA
+    ;
+
+scanStatement
+    :   SCANNER Identifier IGUAL NEW SCANNER PARENIZQ SYSTEM PUNTO IN PARENDER PUNTOCOMA
+    ;
+
 expressionStatement
     :   expression PUNTOCOMA
     ;
@@ -283,7 +300,6 @@ qualifiedName
     :   Identifier (PUNTO Identifier)*
     ;
 
-
 // Tokens básicos
 PACKAGE: 'package';
 IMPORT: 'import';
@@ -343,6 +359,13 @@ FLOAT_LITERAL: [0-9]+'.'[0-9]*;
 CHAR_LITERAL: '\'' . '\'';
 STRING_LITERAL: '"' .*? '"';
 BOOLEAN_LITERAL: 'true' | 'false';
+SYSTEM:'System';
+OUT:'out';
+PRINTLN:'println';
+SCANNER:'Scanner';
+NEW:'new';
+IN:'in';
+
 
 // Identificadores
 Identifier

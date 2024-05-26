@@ -233,6 +233,33 @@ class MyJavaListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MyJavaParser#ioStatement.
+    def enterIoStatement(self, ctx:MyJavaParser.IoStatementContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#ioStatement.
+    def exitIoStatement(self, ctx:MyJavaParser.IoStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#printStatement.
+    def enterPrintStatement(self, ctx:MyJavaParser.PrintStatementContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#printStatement.
+    def exitPrintStatement(self, ctx:MyJavaParser.PrintStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#scanStatement.
+    def enterScanStatement(self, ctx:MyJavaParser.ScanStatementContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#scanStatement.
+    def exitScanStatement(self, ctx:MyJavaParser.ScanStatementContext):
+        pass
+
+
     # Enter a parse tree produced by MyJavaParser#expressionStatement.
     def enterExpressionStatement(self, ctx:MyJavaParser.ExpressionStatementContext):
         pass

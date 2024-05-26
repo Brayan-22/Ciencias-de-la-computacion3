@@ -134,6 +134,21 @@ class MyJavaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by MyJavaParser#ioStatement.
+    def visitIoStatement(self, ctx:MyJavaParser.IoStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#printStatement.
+    def visitPrintStatement(self, ctx:MyJavaParser.PrintStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#scanStatement.
+    def visitScanStatement(self, ctx:MyJavaParser.ScanStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by MyJavaParser#expressionStatement.
     def visitExpressionStatement(self, ctx:MyJavaParser.ExpressionStatementContext):
         return self.visitChildren(ctx)

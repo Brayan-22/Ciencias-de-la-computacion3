@@ -4,9 +4,13 @@ import java.util.ArrayList;
 public class input {
     int numero;
     private static int numero2 = 10,numero3=12;
-    private String numero2 = "hola";
+private boolean cond = true;
+    private String prueba = "hola";
+    numero = 10;;
     public static void main(String[] args) {
-        final int x = 5;
-        final String p = "hola";
+        final int x ;
+        String p = "hola";
+        x = 10;;
     }
+??????????
 }

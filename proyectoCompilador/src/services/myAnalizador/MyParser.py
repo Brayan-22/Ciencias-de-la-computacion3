@@ -4,7 +4,11 @@ from services.myantlr4.MyJavaParser import MyJavaParser as JavaParser
 from services.myAnalizador.MyVisitor import VisitorInterp as MyVisitor
 from services.myAnalizador.MyErrorListener import MyErrorListener
 from services.myAnalizador.MyVisitor import SemanticErrorException
+import json
+
+
 visitor = MyVisitor()
+    
 def MyParser(filePath:str)->str:
     input_stream = FileStream(filePath)
     lexer = JavaLexer(input_stream)
@@ -16,6 +20,8 @@ def MyParser(filePath:str)->str:
     parser.addErrorListener(error)
     tree = parser.compilationUnit()
     visitor.analisiSintactico = []
+    visitor.classVar = {}
+    visitor.localVar = {}
     if parser.getNumberOfSyntaxErrors() > 0:
         return ("Error de sintaxis ".join(error.getErrores())) 
     else:
@@ -28,6 +34,4 @@ def MyParser(filePath:str)->str:
             out = out.join(visitor.analisiSintactico)
         except SemanticErrorException as e:
             out=e
-        
-        
         return out

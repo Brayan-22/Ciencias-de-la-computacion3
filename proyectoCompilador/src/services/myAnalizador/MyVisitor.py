@@ -10,8 +10,7 @@ class SemanticErrorException(Exception):
 class VisitorInterp(MyJavaVisitor):
     def __init__(self) -> None:
         self.classVar = {}
-        self.localVar={
-        }
+        self.localVar={}
         self.analisiSintactico = []
     def getAnalsis(self)->list:
         return self.analisiSintactico
@@ -36,7 +35,28 @@ class VisitorInterp(MyJavaVisitor):
         temp2 ="------import-----\nSintaxis correcta\n"
         self.analisiSintactico.append(temp2+temp+"\n")
         return self.visitChildren(ctx)
+    
+    # Visit a parse tree produced by MyJavaParser#ioStatement.
+    def visitIoStatement(self, ctx:MyJavaParser.IoStatementContext):     
+        temp = ""
+        if ctx.printStatement() is not None:
+            temp = (f"{ctx.printStatement().getText()}")
+        if ctx.scanStatement() is not None:
+            temp = (f"{ctx.scanStatement().getText()}")
+        temp2 ="------IO-----\nSintaxis correcta\n"
+        self.analisiSintactico.append(temp2+temp+"\n")   
+        return self.visitChildren(ctx)
 
+
+    # Visit a parse tree produced by MyJavaParser#printStatement.
+    def visitPrintStatement(self, ctx:MyJavaParser.PrintStatementContext):
+
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#scanStatement.
+    def visitScanStatement(self, ctx:MyJavaParser.ScanStatementContext):
+        return self.visitChildren(ctx)
 
     # Visit a parse tree produced by MyJavaParser#typeDeclaration.
     def visitTypeDeclaration(self, ctx:MyJavaParser.TypeDeclarationContext):
@@ -92,8 +112,12 @@ class VisitorInterp(MyJavaVisitor):
         hola = self.visitVariableDeclaratorList(ctx.variableDeclaratorList())
         for h in hola:
             h["modifiers"] = acceso
-            h["type"]=ctx.type_().getText()
-            temp = "----Dec y Asig------\nSintaxis correcta\n";
+            
+            if ctx.type_() is not None:
+                h["type"]=ctx.type_().getText()
+            else:
+                h["type"]=""
+            temp = "----Dec y Asig------\nSintaxis correcta\n"
             classVarAnalisis = []
             classVarAnalisis.extend(acceso)
             classVarAnalisis.append(h["type"])
@@ -106,15 +130,30 @@ class VisitorInterp(MyJavaVisitor):
         
         for h in hola:
             if h["id"] in self.classVar:
-                if h["type"] != self.classVar[h["id"]]["type"]:
-                    raise SemanticErrorException(f"Error de semantica. Tipos invalidos:{h["type"]} incompatible {self.classVar[h["id"]]["type"]}")
-                else:
+                if h["type"] == self.classVar[h["id"]]["type"]:
                     self.classVar[h["id"]]["value"] = h['value']
+                elif h["type"] != self.classVar[h["id"]]["type"] and h["type"]=="" :
+                    tempV = h["value"]
+                    if self.classVar[h["id"]]["type"] == "int":
+                        try:
+                            tempV = int(tempV)
+                            self.classVar[h["id"]]["value"] = h['value']
+                        except ValueError as _:
+                            raise SemanticErrorException(f"Error de semantica. Tipos incompatibles")
+                    else:
+                        pass
+                else:
+                    tipo1 = self.classVar[h["id"]]["type"]
+                    tipo2 = str(h["type"])
+                    raise SemanticErrorException(f"Error de semantica. Tipos invalidos:{tipo2} incompatible {tipo1}")
             else:
-                self.classVar[h["id"]] ={
-                "type":h["type"],
-                "value":h["value"]
-            }
+                if h["type"]=="":
+                    raise SemanticErrorException(f"Error de semantica. No declaracion de tipo")
+                else:
+                    self.classVar[h["id"]] ={
+                    "type":h["type"],
+                    "value":h["value"]
+                    }
         return self.visitChildren(ctx)
 
 
@@ -160,12 +199,69 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#blockStatement.
     def visitBlockStatement(self, ctx:MyJavaParser.BlockStatementContext):
+        
+        
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#localVariableDeclarationStatement.
     def visitLocalVariableDeclarationStatement(self, ctx:MyJavaParser.LocalVariableDeclarationStatementContext):
+        #aca termina toda la logica de local var
+        acceso = ""
+        if ctx.variableModifier() is not None:
+            acceso=ctx.variableModifier().getText()
+        hola = self.visitLocalVariableDeclaratorList(ctx.localVariableDeclaratorList());
+        for h in hola:
+            h["modifiers"] = acceso
+            if ctx.type_() is not None:
+                h["type"]=ctx.type_().getText()
+            else:
+                h["type"]=""
+            temp = "----Local Dec y Asig------\nSintaxis correcta\n"
+            localVarAnalisis=[]
+            localVarAnalisis.append(acceso)
+            localVarAnalisis.append(h["type"])
+            localVarAnalisis.extend(h["as"])
+            if 'value' not in h:
+                h['value'] = None
+            temp2 = ' '.join(localVarAnalisis)
+            self.analisiSintactico.append(temp+temp2+";"+"\n")
+            del h["as"]
+
+        for h in hola:
+            if h["id"] in self.localVar:
+                if h["type"] == self.localVar[h["id"]]["type"]:
+                    self.localVar[h["id"]]["value"] = h['value']
+                elif h["type"] != self.localVar[h["id"]]["type"] and h["type"]=="" :
+                    tempV = h["value"]
+                    if self.localVar[h["id"]]["type"] == "int":
+                        try:
+                            tempV = int(tempV)
+                            self.localVar[h["id"]]["value"] = h['value']
+                        except ValueError as _:
+                            raise SemanticErrorException(f"Error de semantica. Tipos incompatibles")
+                    else:
+                        pass
+                else:
+                    tipo1 = self.localVar[h["id"]]["type"]
+                    tipo2 = str(h["type"])
+                    raise SemanticErrorException(f"Error de semantica. Tipos invalidos:{tipo2} incompatible {tipo1}")
+            else:
+                if h["type"]=="":
+                    raise SemanticErrorException(f"Error de semantica. No declaracion de tipo")
+                else:
+                    self.localVar[h["id"]] ={
+                    "type":h["type"],
+                    "value":h["value"]
+                    }
         return self.visitChildren(ctx)
+    
+    # Visit a parse tree produced by MyJavaParser#localVariableDeclaratorList.
+    def visitLocalVariableDeclaratorList(self, ctx:MyJavaParser.LocalVariableDeclaratorListContext):
+        listaVariables = []
+        for varDec in ctx.variableDeclarator():
+            listaVariables.append(self.visitVariableDeclarator(varDec))
+        return listaVariables
 
 
     # Visit a parse tree produced by MyJavaParser#localVariableDeclaration.
@@ -185,21 +281,40 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#ifStatement.
     def visitIfStatement(self, ctx:MyJavaParser.IfStatementContext):
+        temp = f"------SENTENCIA IF--------\nSintaxis correcta\n"
+        temp2 =""
+        if ctx.ELSE() is None:
+            temp2=ctx.IF().getText()+"("+ctx.booleanExpression().getText()+")"+"{"+"...sentencia..." +"}"
+        else:
+            temp2=ctx.IF().getText()+"("+ctx.booleanExpression().getText()+")"+"{"+"...sentencia..." +"}"+ctx.ELSE().getText()+"{"+"...sentencia..."+"}"
+        self.analisiSintactico.append(temp+temp2+"\n")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#whileStatement.
     def visitWhileStatement(self, ctx:MyJavaParser.WhileStatementContext):
+        temp = "...Sentencia while...\nSintaxis Correcta\n"
+        temp2 = ctx.WHILE().getText()+"("+ctx.booleanExpression().getText()+")"+ctx.statement().getText()
+        self.analisiSintactico.append(temp+temp2+"\n")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#doWhileStatement.
     def visitDoWhileStatement(self, ctx:MyJavaParser.DoWhileStatementContext):
+        temp = "...Sentencia do while...\nSintaxis Correcta\n"
+        temp2 = ctx.DO().getText()+ctx.statement().getText()+ctx.WHILE().getText()+"("+ctx.expression().getText()+")"+";"
+        self.analisiSintactico.append(temp+temp2+"\n")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#forStatement.
     def visitForStatement(self, ctx:MyJavaParser.ForStatementContext):
+        temp = "...Sentencia for...\nSintaxis Correcta\n"
+        temp2 = ctx.FOR().getText()+"("+ctx.forControl().getText()+")"+"\n"+ctx.statement().getText()
+        self.analisiSintactico.append(temp+temp2+"\n")
+        return self.visitChildren(ctx)
+        
+        
         return self.visitChildren(ctx)
 
 
@@ -220,12 +335,23 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#switchStatement.
     def visitSwitchStatement(self, ctx:MyJavaParser.SwitchStatementContext):
+        temp = "...Sentencia Switch...\nSintaxis correcta\n"
+        swB = self.visitSwitchBlock(ctx.switchBlock())
+        temp2 = "\n".join(swB)
+        temp3 = f"{ctx.SWITCH().getText()} ({ctx.expression().getText()}) {temp2}"
+        self.analisiSintactico.append(temp+temp3+"\n")
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by MyJavaParser#switchBlock.
     def visitSwitchBlock(self, ctx:MyJavaParser.SwitchBlockContext):
-        return self.visitChildren(ctx)
+        #------------
+        grupoSwitch = []
+        grupoSwitch.append(ctx.LLAVEIZQ().getText())
+        for sbsg in ctx.switchBlockStatementGroup():
+            grupoSwitch.append(sbsg.getText())
+        grupoSwitch.append(ctx.LLAVEDER().getText())
+        return grupoSwitch
 
 
     # Visit a parse tree produced by MyJavaParser#switchBlockStatementGroup.
@@ -235,11 +361,15 @@ class VisitorInterp(MyJavaVisitor):
 
     # Visit a parse tree produced by MyJavaParser#switchLabel.
     def visitSwitchLabel(self, ctx:MyJavaParser.SwitchLabelContext):
+        # if ctx.CASE() is None:
+        #     return ctx.DEFAULT().getText()+ctx.DOSPUNTOS().getText()
+        # else:
+        #     return ctx.CASE().getText()+ctx.expression().getText()+ctx.DOSPUNTOS().getText()
         return self.visitChildren(ctx)
-
 
     # Visit a parse tree produced by MyJavaParser#breakStatement.
     def visitBreakStatement(self, ctx:MyJavaParser.BreakStatementContext):
+        # return ctx.getText()
         return self.visitChildren(ctx)
 
 

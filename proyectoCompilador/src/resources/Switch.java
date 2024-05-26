@@ -1,10 +1,13 @@
 public class Switch {
     public static void main(String[] args) {
-        switch (args.length) {
+        int a = 10;
+        switch (a) {
             case 0:
                 //hace algo
                 break;
-                //no hace nada
+            case 10:
+                //hace algo
+                break;
             default:
                 break;
         }
