@@ -5,6 +5,10 @@ import json
 from services.myAnalizador.MyLexer import MyLexer
 from services.myAnalizador.MyParser import MyParser
 from services.myAnalizador.MyParser import visitor
+from services.myAnalizador.ResultGen import MyParser as MyParser2
+from services.myAnalizador.ResultGen import visitor as visitor2
+from services.myAnalizador.CodeGen import MyParser as MyParser3
+from services.myAnalizador.CodeGen import visitor as visitor3
 class vista:##### if switch doWhile while for inicio 
     def __init__(self,page:ft.Page) -> None:
         self.tamButtons = 130
@@ -162,7 +166,7 @@ class vista:##### if switch doWhile while for inicio
     def action_btn_dec_asig(self,e)->None:
         self.clear_table_var_class()
         self.clear_table_var_local()
-        self.input = "src/resources/input.java"
+        self.input = "src/resources/decAsig.java"
         res = lf.leer_fichero(self.input)
         self.text_input.value = res
         self.page.update()
@@ -228,6 +232,8 @@ class vista:##### if switch doWhile while for inicio
         nuevo_texto = self.text_input.value
         lf.escritura_fichero(self.input,nuevo_texto)
         self.text_output2.value = MyParser(self.input)
+        MyParser2(self.input)
+        MyParser3(self.input)
         self.add_row_var_class()
         self.add_row_var_local()
         self.page.update()
@@ -245,31 +251,47 @@ class vista:##### if switch doWhile while for inicio
         self.page.update()
         
     def add_row_var_class(self):
-        self.clear_table_var_class()
+        self.clear_table_var_local()
         for ident in visitor.classVar:
             i = ident
             type = visitor.classVar[ident]['type']
-            value = visitor.classVar[ident]['value']
+            if visitor2.tableSimb[i] is None:
+                value = visitor.classVar[ident]['value']
+            else:
+                if type == 'int':
+                    value = int(visitor2.tableSimb[ident])
+                elif type == 'float':
+                    value = str(visitor2.tableSimb[ident])
+                else:
+                    value = visitor.classVar[ident]['value']
+                    
             self.class_var_table.rows.insert(len(self.class_var_table.rows), 
                                    ft.DataRow([ft.DataCell(ft.Text(type)), 
                                                ft.DataCell(ft.Text(i)), 
                                                ft.DataCell(ft.Text(value))
                                ],))   
+            
     def clear_table_var_class(self):
         tam = len(self.class_var_table.rows) -1
         for i in range(tam,-1,-1):
             self.class_var_table.rows.remove(self.class_var_table.rows[i])
         self.page.update()
         
-        
-        
-        
     def add_row_var_local(self):
         self.clear_table_var_local()
         for ident in visitor.localVar:
             i = ident
             type = visitor.localVar[ident]['type']
-            value = visitor.localVar[ident]['value']
+            if visitor2.tableSimb[i] is None:
+                value = visitor.localVar[ident]['value']
+            else:
+                if type == 'int':
+                    value = int(visitor2.tableSimb[ident])
+                elif type == 'float':
+                    value = str(visitor2.tableSimb[ident])
+                else:
+                    value = visitor.localVar[ident]['value']
+   
             self.local_var_table.rows.insert(len(self.local_var_table.rows), 
                                    ft.DataRow([ft.DataCell(ft.Text(type)), 
                                                ft.DataCell(ft.Text(i)), 

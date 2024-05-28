@@ -264,8 +264,83 @@ class MyJavaVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by MyJavaParser#expression.
-    def visitExpression(self, ctx:MyJavaParser.ExpressionContext):
+    # Visit a parse tree produced by MyJavaParser#suma.
+    def visitSuma(self, ctx:MyJavaParser.SumaContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#parent.
+    def visitParent(self, ctx:MyJavaParser.ParentContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#mult.
+    def visitMult(self, ctx:MyJavaParser.MultContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#mayor.
+    def visitMayor(self, ctx:MyJavaParser.MayorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#distinct.
+    def visitDistinct(self, ctx:MyJavaParser.DistinctContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#incremento.
+    def visitIncremento(self, ctx:MyJavaParser.IncrementoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#l.
+    def visitL(self, ctx:MyJavaParser.LContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#mayorigual.
+    def visitMayorigual(self, ctx:MyJavaParser.MayorigualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#decremento.
+    def visitDecremento(self, ctx:MyJavaParser.DecrementoContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#div.
+    def visitDiv(self, ctx:MyJavaParser.DivContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#igualigual.
+    def visitIgualigual(self, ctx:MyJavaParser.IgualigualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#asign.
+    def visitAsign(self, ctx:MyJavaParser.AsignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#menorigual.
+    def visitMenorigual(self, ctx:MyJavaParser.MenorigualContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#menor.
+    def visitMenor(self, ctx:MyJavaParser.MenorContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#id.
+    def visitId(self, ctx:MyJavaParser.IdContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by MyJavaParser#resta.
+    def visitResta(self, ctx:MyJavaParser.RestaContext):
         return self.visitChildren(ctx)
 
 

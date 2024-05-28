@@ -1,23 +1,10 @@
 public class Inicio {
     public static void main(String[] args) {
-        int i = 0;
-        while (i<10) {
-            i++;
-        }
-        do {
-            i++;
-        } while (i<10);
-        for (int j = 0; j < 10; j++) {
-            System.out.println(j);
-        }
-        switch (i) {
-            case 0:
-                //hace algo
-                break;
-                //hace otro algo
-            default:
-                break;
-        }
-    }
+    int p = 5+3/2*2/6;
+boolean x = true;
+
+    int p2 = 5+5+5;
+    int p3= 10;
+    int p4 = 5+1*10/5*2;
 }
-???????
+}

@@ -177,9 +177,9 @@ def serializedATN():
         0,0,470,497,3,102,51,12,471,472,10,10,0,0,472,473,5,40,0,0,473,497,
         3,102,51,11,474,475,10,9,0,0,475,476,5,41,0,0,476,497,3,102,51,10,
         477,478,10,8,0,0,478,479,5,42,0,0,479,497,3,102,51,9,480,481,10,
-        7,0,0,481,482,5,45,0,0,482,497,3,102,51,8,483,484,10,6,0,0,484,485,
-        5,46,0,0,485,497,3,102,51,7,486,487,10,5,0,0,487,488,5,47,0,0,488,
-        497,3,102,51,6,489,490,10,4,0,0,490,491,5,48,0,0,491,497,3,102,51,
+        7,0,0,481,482,5,48,0,0,482,497,3,102,51,8,483,484,10,6,0,0,484,485,
+        5,47,0,0,485,497,3,102,51,7,486,487,10,5,0,0,487,488,5,45,0,0,488,
+        497,3,102,51,6,489,490,10,4,0,0,490,491,5,46,0,0,491,497,3,102,51,
         5,492,493,10,3,0,0,493,497,5,43,0,0,494,495,10,2,0,0,495,497,5,44,
         0,0,496,462,1,0,0,0,496,465,1,0,0,0,496,468,1,0,0,0,496,471,1,0,
         0,0,496,474,1,0,0,0,496,477,1,0,0,0,496,480,1,0,0,0,496,483,1,0,
@@ -4017,15 +4017,20 @@ class MyJavaParser ( Parser ):
             super().__init__(parent, invokingState)
             self.parser = parser
 
-        def literal(self):
-            return self.getTypedRuleContext(MyJavaParser.LiteralContext,0)
+
+        def getRuleIndex(self):
+            return MyJavaParser.RULE_expression
+
+     
+        def copyFrom(self, ctx:ParserRuleContext):
+            super().copyFrom(ctx)
 
 
-        def Identifier(self):
-            return self.getToken(MyJavaParser.Identifier, 0)
+    class SumaContext(ExpressionContext):
 
-        def IGUAL(self):
-            return self.getToken(MyJavaParser.IGUAL, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def expression(self, i:int=None):
             if i is None:
@@ -4033,63 +4038,451 @@ class MyJavaParser ( Parser ):
             else:
                 return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
 
+        def MAS(self):
+            return self.getToken(MyJavaParser.MAS, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterSuma" ):
+                listener.enterSuma(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitSuma" ):
+                listener.exitSuma(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSuma" ):
+                return visitor.visitSuma(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class ParentContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
         def PARENIZQ(self):
             return self.getToken(MyJavaParser.PARENIZQ, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MyJavaParser.ExpressionContext,0)
 
         def PARENDER(self):
             return self.getToken(MyJavaParser.PARENDER, 0)
 
-        def MAYOR(self):
-            return self.getToken(MyJavaParser.MAYOR, 0)
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterParent" ):
+                listener.enterParent(self)
 
-        def MENOR(self):
-            return self.getToken(MyJavaParser.MENOR, 0)
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitParent" ):
+                listener.exitParent(self)
 
-        def MAYORIGUAL(self):
-            return self.getToken(MyJavaParser.MAYORIGUAL, 0)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParent" ):
+                return visitor.visitParent(self)
+            else:
+                return visitor.visitChildren(self)
 
-        def MENORIGUAL(self):
-            return self.getToken(MyJavaParser.MENORIGUAL, 0)
 
-        def IGUALIGUAL(self):
-            return self.getToken(MyJavaParser.IGUALIGUAL, 0)
+    class MultContext(ExpressionContext):
 
-        def DISTINTO(self):
-            return self.getToken(MyJavaParser.DISTINTO, 0)
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
 
-        def MAS(self):
-            return self.getToken(MyJavaParser.MAS, 0)
-
-        def MENOS(self):
-            return self.getToken(MyJavaParser.MENOS, 0)
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
 
         def ASTERISCO(self):
             return self.getToken(MyJavaParser.ASTERISCO, 0)
 
-        def DIV(self):
-            return self.getToken(MyJavaParser.DIV, 0)
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMult" ):
+                listener.enterMult(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMult" ):
+                listener.exitMult(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMult" ):
+                return visitor.visitMult(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MayorContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def MAYOR(self):
+            return self.getToken(MyJavaParser.MAYOR, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMayor" ):
+                listener.enterMayor(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMayor" ):
+                listener.exitMayor(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMayor" ):
+                return visitor.visitMayor(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DistinctContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def DISTINTO(self):
+            return self.getToken(MyJavaParser.DISTINTO, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDistinct" ):
+                listener.enterDistinct(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDistinct" ):
+                listener.exitDistinct(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDistinct" ):
+                return visitor.visitDistinct(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IncrementoContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(MyJavaParser.ExpressionContext,0)
 
         def MASMAS(self):
             return self.getToken(MyJavaParser.MASMAS, 0)
 
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIncremento" ):
+                listener.enterIncremento(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIncremento" ):
+                listener.exitIncremento(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIncremento" ):
+                return visitor.visitIncremento(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class LContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def literal(self):
+            return self.getTypedRuleContext(MyJavaParser.LiteralContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterL" ):
+                listener.enterL(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitL" ):
+                listener.exitL(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitL" ):
+                return visitor.visitL(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MayorigualContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def MAYORIGUAL(self):
+            return self.getToken(MyJavaParser.MAYORIGUAL, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMayorigual" ):
+                listener.enterMayorigual(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMayorigual" ):
+                listener.exitMayorigual(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMayorigual" ):
+                return visitor.visitMayorigual(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DecrementoContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self):
+            return self.getTypedRuleContext(MyJavaParser.ExpressionContext,0)
+
         def MENOSMENOS(self):
             return self.getToken(MyJavaParser.MENOSMENOS, 0)
 
-        def getRuleIndex(self):
-            return MyJavaParser.RULE_expression
-
         def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpression" ):
-                listener.enterExpression(self)
+            if hasattr( listener, "enterDecremento" ):
+                listener.enterDecremento(self)
 
         def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpression" ):
-                listener.exitExpression(self)
+            if hasattr( listener, "exitDecremento" ):
+                listener.exitDecremento(self)
 
         def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitExpression" ):
-                return visitor.visitExpression(self)
+            if hasattr( visitor, "visitDecremento" ):
+                return visitor.visitDecremento(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class DivContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def DIV(self):
+            return self.getToken(MyJavaParser.DIV, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterDiv" ):
+                listener.enterDiv(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitDiv" ):
+                listener.exitDiv(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDiv" ):
+                return visitor.visitDiv(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IgualigualContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def IGUALIGUAL(self):
+            return self.getToken(MyJavaParser.IGUALIGUAL, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterIgualigual" ):
+                listener.enterIgualigual(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitIgualigual" ):
+                listener.exitIgualigual(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIgualigual" ):
+                return visitor.visitIgualigual(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class AsignContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def Identifier(self):
+            return self.getToken(MyJavaParser.Identifier, 0)
+        def IGUAL(self):
+            return self.getToken(MyJavaParser.IGUAL, 0)
+        def expression(self):
+            return self.getTypedRuleContext(MyJavaParser.ExpressionContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterAsign" ):
+                listener.enterAsign(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitAsign" ):
+                listener.exitAsign(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAsign" ):
+                return visitor.visitAsign(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MenorigualContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def MENORIGUAL(self):
+            return self.getToken(MyJavaParser.MENORIGUAL, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMenorigual" ):
+                listener.enterMenorigual(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMenorigual" ):
+                listener.exitMenorigual(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMenorigual" ):
+                return visitor.visitMenorigual(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class MenorContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def MENOR(self):
+            return self.getToken(MyJavaParser.MENOR, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterMenor" ):
+                listener.enterMenor(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitMenor" ):
+                listener.exitMenor(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMenor" ):
+                return visitor.visitMenor(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class IdContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def Identifier(self):
+            return self.getToken(MyJavaParser.Identifier, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterId" ):
+                listener.enterId(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitId" ):
+                listener.exitId(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitId" ):
+                return visitor.visitId(self)
+            else:
+                return visitor.visitChildren(self)
+
+
+    class RestaContext(ExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a MyJavaParser.ExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def expression(self, i:int=None):
+            if i is None:
+                return self.getTypedRuleContexts(MyJavaParser.ExpressionContext)
+            else:
+                return self.getTypedRuleContext(MyJavaParser.ExpressionContext,i)
+
+        def MENOS(self):
+            return self.getToken(MyJavaParser.MENOS, 0)
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterResta" ):
+                listener.enterResta(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitResta" ):
+                listener.exitResta(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitResta" ):
+                return visitor.visitResta(self)
             else:
                 return visitor.visitChildren(self)
 
@@ -4108,16 +4501,26 @@ class MyJavaParser ( Parser ):
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,39,self._ctx)
             if la_ == 1:
+                localctx = MyJavaParser.LContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
+
                 self.state = 451
                 self.literal()
                 pass
 
             elif la_ == 2:
+                localctx = MyJavaParser.IdContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 452
                 self.match(MyJavaParser.Identifier)
                 pass
 
             elif la_ == 3:
+                localctx = MyJavaParser.AsignContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 453
                 self.match(MyJavaParser.Identifier)
                 self.state = 454
@@ -4127,6 +4530,9 @@ class MyJavaParser ( Parser ):
                 pass
 
             elif la_ == 4:
+                localctx = MyJavaParser.ParentContext(self, localctx)
+                self._ctx = localctx
+                _prevctx = localctx
                 self.state = 456
                 self.match(MyJavaParser.PARENIZQ)
                 self.state = 457
@@ -4149,7 +4555,7 @@ class MyJavaParser ( Parser ):
                     self._errHandler.sync(self)
                     la_ = self._interp.adaptivePredict(self._input,40,self._ctx)
                     if la_ == 1:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.MayorContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 462
                         if not self.precpred(self._ctx, 13):
@@ -4162,7 +4568,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 2:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.MenorContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 465
                         if not self.precpred(self._ctx, 12):
@@ -4175,7 +4581,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 3:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.MayorigualContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 468
                         if not self.precpred(self._ctx, 11):
@@ -4188,7 +4594,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 4:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.MenorigualContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 471
                         if not self.precpred(self._ctx, 10):
@@ -4201,7 +4607,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 5:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.IgualigualContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 474
                         if not self.precpred(self._ctx, 9):
@@ -4214,7 +4620,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 6:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.DistinctContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 477
                         if not self.precpred(self._ctx, 8):
@@ -4227,59 +4633,59 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 7:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.DivContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 480
                         if not self.precpred(self._ctx, 7):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 7)")
                         self.state = 481
-                        self.match(MyJavaParser.MAS)
+                        self.match(MyJavaParser.DIV)
                         self.state = 482
                         self.expression(8)
                         pass
 
                     elif la_ == 8:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.MultContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 483
                         if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
                         self.state = 484
-                        self.match(MyJavaParser.MENOS)
+                        self.match(MyJavaParser.ASTERISCO)
                         self.state = 485
                         self.expression(7)
                         pass
 
                     elif la_ == 9:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.SumaContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 486
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
                         self.state = 487
-                        self.match(MyJavaParser.ASTERISCO)
+                        self.match(MyJavaParser.MAS)
                         self.state = 488
                         self.expression(6)
                         pass
 
                     elif la_ == 10:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.RestaContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 489
                         if not self.precpred(self._ctx, 4):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
                         self.state = 490
-                        self.match(MyJavaParser.DIV)
+                        self.match(MyJavaParser.MENOS)
                         self.state = 491
                         self.expression(5)
                         pass
 
                     elif la_ == 11:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.IncrementoContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 492
                         if not self.precpred(self._ctx, 3):
@@ -4290,7 +4696,7 @@ class MyJavaParser ( Parser ):
                         pass
 
                     elif la_ == 12:
-                        localctx = MyJavaParser.ExpressionContext(self, _parentctx, _parentState)
+                        localctx = MyJavaParser.DecrementoContext(self, MyJavaParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
                         self.state = 494
                         if not self.precpred(self._ctx, 2):

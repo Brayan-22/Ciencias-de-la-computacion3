@@ -268,22 +268,22 @@ variableInitializer
     ;
 
 expression
-    :   literal
-    |   Identifier
-    |   Identifier IGUAL expression
-    |   expression MAYOR expression
-    |   expression MENOR expression
-    |   expression MAYORIGUAL expression
-    |   expression MENORIGUAL expression
-    |   expression IGUALIGUAL expression
-    |   expression DISTINTO expression
-    |   expression MAS expression
-    |   expression MENOS expression
-    |   expression ASTERISCO expression
-    |   expression DIV expression
-    |   expression MASMAS
-    |   expression MENOSMENOS
-    |   PARENIZQ expression PARENDER
+    :   literal #l
+    |   Identifier #id
+    |   Identifier IGUAL expression #asign
+    |   expression MAYOR expression #mayor
+    |   expression MENOR expression #menor
+    |   expression MAYORIGUAL expression #mayorigual
+    |   expression MENORIGUAL expression #menorigual
+    |   expression IGUALIGUAL expression #igualigual
+    |   expression DISTINTO expression #distinct
+    |   expression DIV expression #div
+    |   expression ASTERISCO expression #mult
+    |   expression MAS expression #suma
+    |   expression MENOS expression #resta
+    |   expression MASMAS #incremento
+    |   expression MENOSMENOS #decremento
+    |   PARENIZQ expression PARENDER #parent
     ;
 
 // Literales

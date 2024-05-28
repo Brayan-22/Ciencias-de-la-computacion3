@@ -467,12 +467,147 @@ class MyJavaListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MyJavaParser#expression.
-    def enterExpression(self, ctx:MyJavaParser.ExpressionContext):
+    # Enter a parse tree produced by MyJavaParser#suma.
+    def enterSuma(self, ctx:MyJavaParser.SumaContext):
         pass
 
-    # Exit a parse tree produced by MyJavaParser#expression.
-    def exitExpression(self, ctx:MyJavaParser.ExpressionContext):
+    # Exit a parse tree produced by MyJavaParser#suma.
+    def exitSuma(self, ctx:MyJavaParser.SumaContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#parent.
+    def enterParent(self, ctx:MyJavaParser.ParentContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#parent.
+    def exitParent(self, ctx:MyJavaParser.ParentContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#mult.
+    def enterMult(self, ctx:MyJavaParser.MultContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#mult.
+    def exitMult(self, ctx:MyJavaParser.MultContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#mayor.
+    def enterMayor(self, ctx:MyJavaParser.MayorContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#mayor.
+    def exitMayor(self, ctx:MyJavaParser.MayorContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#distinct.
+    def enterDistinct(self, ctx:MyJavaParser.DistinctContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#distinct.
+    def exitDistinct(self, ctx:MyJavaParser.DistinctContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#incremento.
+    def enterIncremento(self, ctx:MyJavaParser.IncrementoContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#incremento.
+    def exitIncremento(self, ctx:MyJavaParser.IncrementoContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#l.
+    def enterL(self, ctx:MyJavaParser.LContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#l.
+    def exitL(self, ctx:MyJavaParser.LContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#mayorigual.
+    def enterMayorigual(self, ctx:MyJavaParser.MayorigualContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#mayorigual.
+    def exitMayorigual(self, ctx:MyJavaParser.MayorigualContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#decremento.
+    def enterDecremento(self, ctx:MyJavaParser.DecrementoContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#decremento.
+    def exitDecremento(self, ctx:MyJavaParser.DecrementoContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#div.
+    def enterDiv(self, ctx:MyJavaParser.DivContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#div.
+    def exitDiv(self, ctx:MyJavaParser.DivContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#igualigual.
+    def enterIgualigual(self, ctx:MyJavaParser.IgualigualContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#igualigual.
+    def exitIgualigual(self, ctx:MyJavaParser.IgualigualContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#asign.
+    def enterAsign(self, ctx:MyJavaParser.AsignContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#asign.
+    def exitAsign(self, ctx:MyJavaParser.AsignContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#menorigual.
+    def enterMenorigual(self, ctx:MyJavaParser.MenorigualContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#menorigual.
+    def exitMenorigual(self, ctx:MyJavaParser.MenorigualContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#menor.
+    def enterMenor(self, ctx:MyJavaParser.MenorContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#menor.
+    def exitMenor(self, ctx:MyJavaParser.MenorContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#id.
+    def enterId(self, ctx:MyJavaParser.IdContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#id.
+    def exitId(self, ctx:MyJavaParser.IdContext):
+        pass
+
+
+    # Enter a parse tree produced by MyJavaParser#resta.
+    def enterResta(self, ctx:MyJavaParser.RestaContext):
+        pass
+
+    # Exit a parse tree produced by MyJavaParser#resta.
+    def exitResta(self, ctx:MyJavaParser.RestaContext):
         pass
 
 
