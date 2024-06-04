@@ -1,12 +1,12 @@
-from lexico import lexer
+# from lexico import lexer
 from parse import parser
-
-def analizar_codigo(input_text):
+import ply.lex as lexer
+def analizar_codigo(input_text)->str:
     lexer.input(input_text)
-    for token in lexer:
-        print(token)
+    # for token in lexer:
+    #     print(token)
     result = parser.parse(input_text)
-    print(result)
+    return result
 
 Programa = """
 public class HolaMundo {

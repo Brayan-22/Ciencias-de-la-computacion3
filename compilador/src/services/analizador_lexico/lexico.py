@@ -1,5 +1,4 @@
 import ply.lex as lex
-
 tokens = (
     "IDENTIFICADOR",
     "NUMERO_ENTERO",

@@ -1,7 +1,6 @@
 import flet as ft
 import services.lectura_fichero as lf
 import services.analizador_lexico.lexico as al
-
 class vista:##### if switch doWhile while for inicio 
     def __init__(self,page:ft.Page) -> None:
         self.tamButtons = 130
@@ -15,6 +14,9 @@ class vista:##### if switch doWhile while for inicio
         self.btn_dec_asig = ft.ElevatedButton(text="Declaración y asignación",width=self.tamButtons,on_click=self.action_btn_dec_asig)
         self.btn_io= ft.ElevatedButton("IO",width=self.tamButtons,on_click=self.action_btn_io)
         self.btn_lexico = ft.ElevatedButton("Analisis Lexico",width=self.tamButtons,on_click=self.action_analisis_lexico)
+        
+        self.btn_sintactico = ft.ElevatedButton("Analisis sintactico",width=self.tamButtons,on_click=self.action_analisis_sintactico)
+        
         self.btn_borrar = ft.ElevatedButton("Borrar",width=self.tamButtons,on_click=self.action_borrar)
         self.btn_archivo = ft.ElevatedButton("Cargar archivo",width=self.tamButtons,icon=ft.icons.UPLOAD_FILE,on_click=lambda _:self.pick_files_dialog.pick_files(allow_multiple=False))
         self.btn_if = ft.ElevatedButton("If",width=self.tamButtons,on_click=self.action_btn_if)
@@ -28,7 +30,6 @@ class vista:##### if switch doWhile while for inicio
         self.text_output = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis Lexico")
         self.text_output2 = ft.TextField(multiline=True,width="100%",height="100%",content_padding=10,label="Analisis sintactico")
         #Contenedores
-        
         self.c_buttons = ft.Container(
             content= ft.Row(
                 [
@@ -40,6 +41,7 @@ class vista:##### if switch doWhile while for inicio
                     self.btn_for,
                     self.btn_inicio,
                     self.btn_lexico,
+                    self.btn_sintactico,
                     self.btn_borrar,
                     self.btn_archivo,
                 ],
@@ -68,7 +70,7 @@ class vista:##### if switch doWhile while for inicio
             margin=5,
             padding=5
         )
-        self.c_text_output2 = ft.Contaier(
+        self.c_text_output2 = ft.Container(
             content=self.text_output2,
             width=450,
             height=600,
@@ -104,6 +106,10 @@ class vista:##### if switch doWhile while for inicio
     def action_btn_dec_asig(self,e)->None:
         res = lf.leer_fichero("src/resources/decAsig.java")
         self.text_input.value = res
+        self.page.update()
+    def action_analisis_sintactico(self,e)->None:
+        # self.text_output2.value = al.analizador_sintactico(self.text_input.value)
+        print("Analizador sintactico")
         self.page.update()
         
     def action_btn_io(self,e)->None:

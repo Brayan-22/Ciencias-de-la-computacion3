@@ -1,0 +1,168 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    BLOQUE_COMENTARIO
+    COMA
+    COMENTARIO
+    CORCHETE_DERECHO
+    CORCHETE_IZQUIERDO
+    DIFERENTE_DE
+    DOS_PUNTOS
+    IGUALDAD
+    LLAVE_DERECHA
+    LLAVE_IZQUIERDA
+    MAYOR_IGUAL_QUE
+    MAYOR_O_IGUAL_QUE
+    MAYOR_QUE
+    MENOR_IGUAL_QUE
+    MENOR_O_IGUAL_QUE
+    MENOR_QUE
+    MODIFICADOR
+    MOD_ACCESO
+    OPERADOR_DECREMENTO
+    OPERADOR_DIVISION
+    OPERADOR_INCREMENTO
+    OPERADOR_LOGICO_AND
+    OPERADOR_LOGICO_NOT
+    OPERADOR_LOGICO_OR
+    OPERADOR_MULTIPLICACION
+    PALABRA_RESERVADA
+    PUNTO
+    TIPO_DATO
+    TIPO_FUNCION
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> bloque
+Rule 2     bloque -> lista_declaraciones { lista_sentencias }
+Rule 3     lista_declaraciones -> declaracion ; lista_declaraciones
+Rule 4     lista_declaraciones -> <empty>
+Rule 5     declaracion -> tipo_dato variable
+Rule 6     declaracion -> tipo_dato variable ASIGNACION expresion
+Rule 7     tipo_dato -> INT
+Rule 8     tipo_dato -> FLOAT
+Rule 9     tipo_dato -> VOID
+Rule 10    variable -> IDENTIFICADOR
+Rule 11    lista_sentencias -> sentencia lista_sentencias
+Rule 12    lista_sentencias -> <empty>
+Rule 13    sentencia -> declaracion_asignacion ;
+Rule 14    sentencia -> sentencia_if
+Rule 15    sentencia -> sentencia_while
+Rule 16    sentencia -> sentencia_for
+Rule 17    sentencia -> sentencia_return
+Rule 18    sentencia -> sentencia_imprimir
+Rule 19    sentencia -> bloque
+Rule 20    sentencia -> ;
+Rule 21    declaracion_asignacion -> variable ASIGNACION expresion
+Rule 22    sentencia_if -> IF expresion bloque
+Rule 23    sentencia_if -> IF expresion bloque ELSE bloque
+Rule 24    sentencia_while -> WHILE expresion bloque
+Rule 25    sentencia_for -> FOR PARENTESIS_IZQUIERDO declaracion_asignacion PUNTO_COMA expresion PUNTO_COMA incremento_decremento PARENTESIS_DERECHO bloque
+Rule 26    incremento_decremento -> variable OPERADOR_SUMA NUMERO_ENTERO
+Rule 27    incremento_decremento -> variable OPERADOR_RESTA NUMERO_ENTERO
+Rule 28    sentencia_return -> RETURN expresion PUNTO_COMA
+Rule 29    sentencia_return -> RETURN PUNTO_COMA
+Rule 30    sentencia_imprimir -> IMPRIMIR PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO PUNTO_COMA
+Rule 31    sentencia_imprimir -> IMPRIMIR PARENTESIS_IZQUIERDO CADENA PARENTESIS_DERECHO PUNTO_COMA
+Rule 32    expresion -> expresion_simple OPERADOR_RELACIONAL expresion_simple
+Rule 33    expresion -> expresion_simple
+Rule 34    expresion_simple -> termino + termino
+Rule 35    expresion_simple -> termino - termino
+Rule 36    expresion_simple -> termino
+Rule 37    termino -> factor *
+Rule 38    termino -> factor / factor
+Rule 39    termino -> factor
+Rule 40    factor -> IDENTIFICADOR
+Rule 41    factor -> NUMERO_ENTERO
+Rule 42    factor -> NUMERO_DECIMAL
+Rule 43    factor -> CADENA
+Rule 44    factor -> CARACTER
+Rule 45    factor -> PARENTESIS_IZQUIERDO expresion PARENTESIS_DERECHO
+Rule 46    factor -> NOT factor
+
+Terminals, with rules where they appear
+
+*                    : 37
++                    : 34
+-                    : 35
+/                    : 38
+;                    : 3 13 20
+ASIGNACION           : 6 21
+BLOQUE_COMENTARIO    : 
+CADENA               : 31 43
+CARACTER             : 44
+COMA                 : 
+COMENTARIO           : 
+CORCHETE_DERECHO     : 
+CORCHETE_IZQUIERDO   : 
+DIFERENTE_DE         : 
+DOS_PUNTOS           : 
+IDENTIFICADOR        : 10 40
+IGUALDAD             : 
+LLAVE_DERECHA        : 
+LLAVE_IZQUIERDA      : 
+MAYOR_IGUAL_QUE      : 
+MAYOR_O_IGUAL_QUE    : 
+MAYOR_QUE            : 
+MENOR_IGUAL_QUE      : 
+MENOR_O_IGUAL_QUE    : 
+MENOR_QUE            : 
+MODIFICADOR          : 
+MOD_ACCESO           : 
+NUMERO_DECIMAL       : 42
+NUMERO_ENTERO        : 26 27 41
+OPERADOR_DECREMENTO  : 
+OPERADOR_DIVISION    : 
+OPERADOR_INCREMENTO  : 
+OPERADOR_LOGICO_AND  : 
+OPERADOR_LOGICO_NOT  : 
+OPERADOR_LOGICO_OR   : 
+OPERADOR_MULTIPLICACION : 
+OPERADOR_RESTA       : 27
+OPERADOR_SUMA        : 26
+PALABRA_RESERVADA    : 
+PARENTESIS_DERECHO   : 25 30 31 45
+PARENTESIS_IZQUIERDO : 25 30 31 45
+PUNTO                : 
+PUNTO_COMA           : 25 25 28 29 30 31
+TIPO_DATO            : 
+TIPO_FUNCION         : 
+error                : 
+{                    : 2
+}                    : 2
+
+Nonterminals, with rules where they appear
+
+ELSE                 : 23
+FLOAT                : 8
+FOR                  : 25
+IF                   : 22 23
+IMPRIMIR             : 30 31
+INT                  : 7
+NOT                  : 46
+OPERADOR_RELACIONAL  : 32
+RETURN               : 28 29
+VOID                 : 9
+WHILE                : 24
+bloque               : 1 19 22 23 23 24 25
+declaracion          : 3
+declaracion_asignacion : 13 25
+expresion            : 6 21 22 23 24 25 28 30 45
+expresion_simple     : 32 32 33
+factor               : 37 38 38 39 46
+incremento_decremento : 25
+lista_declaraciones  : 2 3
+lista_sentencias     : 2 11
+programa             : 0
+sentencia            : 11
+sentencia_for        : 16
+sentencia_if         : 14
+sentencia_imprimir   : 18
+sentencia_return     : 17
+sentencia_while      : 15
+termino              : 34 34 35 35 36
+tipo_dato            : 5 6
+variable             : 5 6 21 26 27
+
