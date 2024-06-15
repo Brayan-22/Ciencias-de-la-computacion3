@@ -1,4 +1,17 @@
 # Generated from MyJava.g4 by ANTLR 4.13.1
+from io import StringIO
+
+import sys
+if sys.version_info[1] > 5:
+    from typing import TextIO
+else:
+    from typing.io import TextIO
+from antlr4.CommonTokenFactory import CommonTokenFactory
+from antlr4.atn.LexerATNSimulator import LexerATNSimulator
+from antlr4.InputStream import InputStream
+from antlr4.Recognizer import Recognizer
+from antlr4.Token import Token
+from antlr4.error.Errors import IllegalStateException, LexerNoViableAltException, RecognitionException
 from antlr4 import *
 from io import StringIO
 import sys
@@ -185,7 +198,6 @@ def serializedATN():
 class MyJavaLexer(Lexer):
 
     atn = ATNDeserializer().deserialize(serializedATN())
-
     decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
 
     PACKAGE = 1
@@ -306,5 +318,16 @@ class MyJavaLexer(Lexer):
         self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
         self._actions = None
         self._predicates = None
+        self._errors = []
+        
+    def notifyListeners(self, e:LexerNoViableAltException):
+        start = self._tokenStartCharIndex
+        stop = self._input.index
+        text = self._input.getText(start, stop)
+        msg = "token recognition error at: '" + self.getErrorDisplay(text) + "'"
+        self._errors.append(f"line {self._tokenStartLine}:{self._tokenStartColumn} "+msg)
+        listener = self.getErrorListenerDispatch()
+        listener.syntaxError(self, None, self._tokenStartLine, self._tokenStartColumn, msg, e)
 
-
+    def getErrors(self)->list:
+        return self._errors
