@@ -19,3 +19,4 @@ def MyLexer(filePath:str)->str:
         analisis.append(error+"\n")
     tokenOut = tokenOut.join(analisis)
     return tokenOut
+

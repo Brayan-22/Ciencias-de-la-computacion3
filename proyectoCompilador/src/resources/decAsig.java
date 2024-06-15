@@ -6,3 +6,4 @@ public class decAsig {
     private String cadena = "hola mundo";    
     private static final String prueba = "adios mundo"; 
 }
+??????????
